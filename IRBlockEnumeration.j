@@ -8,6 +8,8 @@
 
 
 
+IRTerminateEnumeration = @"IRTerminateEnumeration";
+
 @implementation CPDictionary (BlockEnumeration)
 
 - (void) enumerate:(Function)enumerationBlock {
@@ -24,9 +26,13 @@
 
 - (void) enumerate:(Function)enumerationBlock {
 
-	for (object in self)
-	if (self.hasOwnProperty(object))
-	if (!enumerationBlock(self[object])) return;
+	var enumerator = [self objectEnumerator], object = nil;
+	while (object = [enumerator nextObject]) {
+		
+		if (enumerationBlock(object) == IRTerminateEnumeration)
+		return;
+		
+	}
 
 }
 
