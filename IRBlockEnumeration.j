@@ -14,9 +14,13 @@ IRTerminateEnumeration = @"IRTerminateEnumeration";
 
 - (void) enumerate:(Function)enumerationBlock {
 
-	for (key in _buckets)
-	if (_buckets.hasOwnProperty(key))
-	if (!enumerationBlock(key, _buckets[key])) return;
+	var enumerator = [self keyEnumerator], object = nil;
+	while (key = [enumerator nextObject]) {
+		
+		if (enumerationBlock(key, [self objectForKey:key]) == IRTerminateEnumeration)
+		return;
+		
+	}
 
 }
 
