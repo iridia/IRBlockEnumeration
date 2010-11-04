@@ -40,6 +40,21 @@ IRTerminateEnumeration = @"IRTerminateEnumeration";
 
 }
 
+- (void) enumerateWithIndexesAndObjects:(Function)enumerationBlock {
+	
+	var enumerator = [self objectEnumerator], object = nil, index = 0;
+	
+	while (object = [enumerator nextObject]) {
+		
+		if (enumerationBlock(index, object) == IRTerminateEnumeration)
+		return;
+		
+		index ++;
+		
+	}
+
+}
+
 @end
 
 
